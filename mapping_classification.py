@@ -35,46 +35,64 @@ def compareTwoLists(uniclass_JP_code, hyoushi_JP_code):
         matched_ind = -1
         for j in range(len(hyoushi_JP_code)):
         #for j in range(100):
-            if uniclass_JP_code[i] == None or hyoushi_JP_code[]
-            matched_temp = difflib.SequenceMatcher(None, uniclass_JP_code[i], hyoushi_JP_code[j]).ratio()
-            if matched_val < matched_temp:
-                matched_val = matched_temp
-                matched_ind = hyoushi_JP_code[j]
+            if uniclass_JP_code[i] != None and hyoushi_JP_code[j] != None:
+                matched_temp = difflib.SequenceMatcher(None, uniclass_JP_code[i], hyoushi_JP_code[j]).ratio()
+                if matched_val < matched_temp:
+                    matched_val = matched_temp
+                    matched_ind = hyoushi_JP_code[j]
         matched_list.append(matched_val)
         matched_ind_list.append(matched_ind)
 
     return matched_ind_list, matched_list
 
-def Main():
+def cleanUpTerms(lst):
+    for i in range(len(lst)):
+        if lst[i] != None:
+            if "システム" in lst[i]:
+                lst[i] = lst[i].replace("システム", "")
+    print(lst)
+    return lst
 
-    """
+def Main():
+    manipTable = ManipulateTable_v1.ManipulateTable()
+
     #Extract list from `標準仕様書_JP
     hyoushi_wb = openpyxl.load_workbook("標準仕様書.xlsx")
     hyoushi_ws = hyoushi_wb["Sheet2"]
-    manipTable = ManipulateTable_v1.ManipulateTable()
+
     hyoushi_JP_index = manipTable.getColumnValueByName(hyoushi_ws, "Column1")
     hyoushi_JP_code = manipTable.getColumnValueByName(hyoushi_ws, "Column5")
 
     #Extract list from Uniclass2015_JP
     uniclass_wb = openpyxl.load_workbook("Uniclass_System.xlsx")
     uniclass_ws = uniclass_wb["Sheet1"]
+
     uniclass_JP_index = manipTable.getColumnValueByName(uniclass_ws, "code")
     uniclass_JP_code = manipTable.getColumnValueByName(uniclass_ws, "title_jp")
-    """
+
 
     #Extract list sample
-    hyoushi_JP_index = getHyoushi_index()
-    hyoushi_JP_code = getHyoushi_code()
+    #hyoushi_JP_index = getHyoushi_index()
+    #hyoushi_JP_code = getHyoushi_code()
+    #uniclass_JP_index = getUniclass_index()
+    #uniclass_JP_code = getUniclass_code()
 
-    uniclass_JP_index = getUniclass_index()
-    uniclass_JP_code = getUniclass_code()
-
+    hyoushi_JP_code = cleanUpTerms(hyoushi_JP_code)
+    uniclass_JP_code = cleanUpTerms(uniclass_JP_code)
 
     UniToHyou_ind, UniToHyou_val = compareTwoLists(uniclass_JP_code, hyoushi_JP_code)
-    HyouToUni_ind, HyouToUni_val = compareTwoLists(hyoushi_JP_code, uniclass_JP_code)
+    manipTable.insertColumnByValueB(uniclass_ws, "D2", UniToHyou_ind)
+    manipTable.insertColumnByValueB(uniclass_ws, "E2", UniToHyou_val)
+    uniclass_wb.save('result_uniclass.xlsx')
 
-    print(UniToHyou_ind)
-    print(UniToHyou_val)
+    HyouToUni_ind, HyouToUni_val = compareTwoLists(hyoushi_JP_code, uniclass_JP_code)
+    manipTable.insertColumnByValueB(hyoushi_ws, "H2", HyouToUni_ind)
+    manipTable.insertColumnByValueB(hyoushi_ws, "I2", HyouToUni_val)
+    hyoushi_wb.save('result_hyoushi.xlsx')
+
+    #print(UniToHyou_ind)
+    #print(UniToHyou_val)
+
 
 if __name__=="__main__":
     start_time = time.time()

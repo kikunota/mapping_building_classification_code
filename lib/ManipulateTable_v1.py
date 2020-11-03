@@ -18,7 +18,7 @@ class ManipulateTable:
             new_col_ceilingH.append(cell)
         return new_col_ceilingH
 
-        
+
     def getColumnIndexByName(self, ws, name, headerRow=0):
         """return list of cells"""
         #columnVal = getColumn(header, name)
@@ -26,7 +26,7 @@ class ManipulateTable:
         #print(columnVal)
 
         header = ws.iter_rows(min_row=1, max_col=len(list(ws.rows)[headerRow]), max_row=1, values_only=True)
-        
+
         for head in header:
             lst_header = list(head)
         #print (lst_header)
@@ -43,7 +43,7 @@ class ManipulateTable:
         #print(columnVal)
 
         header = ws.iter_rows(min_row=1, max_col=len(list(ws.rows)[headerRow]), max_row=1, values_only=True)
-        
+
         for head in header:
             lst_header = list(head)
         #print (lst_header)
@@ -53,7 +53,7 @@ class ManipulateTable:
             ind = None
             return ind
         return ind
-    
+
     def getColumnByIndex(self, ws, name, col):
         header = ws.iter_cols(min_col= col, max_row=len(list(ws.columns)[col]), max_col=col, values_only=True)
         for head in header:
@@ -112,8 +112,8 @@ class ManipulateTable:
         col_room = ws[start_coord: end_coord]
         lst_col_room = self.convertGeneratorToList(col_room)
         return lst_col_room
-    
-    
+
+
     def getColumnValueByName(self, ws, name, headerRow=0):
         #Get column with 部屋名 title
         #名前でその列の情報を落とすことにより列が混ざっていても大丈夫
@@ -133,14 +133,22 @@ class ManipulateTable:
         ex_col, ex_row = self.convertCoordinateFromString(start) #retrieve start cell in number
         for i in range(len(columns)):
             ws.cell(row = i + ex_row, column = ex_col, value = columns[i][0].value)
-            
+
     def insertColumnByValue(self, ws, start, columns):
         #Insert Column list with int or string
 
         ex_col, ex_row = self.convertCoordinateFromString(start) #retrieve start cell in number
         for i in range(len(columns)):
             ws.cell(row = i + ex_row, column = ex_col, value = columns[i][0])
-            
+
+    def insertColumnByValueB(self, ws, start, columns):
+        #Insert Column list with int or string
+
+        ex_col, ex_row = self.convertCoordinateFromString(start) #retrieve start cell in number
+        for i in range(len(columns)):
+            ws.cell(row = i + ex_row, column = ex_col, value = columns[i])
+
+
     def insertID(self, ws, start, columns):
         #This is insert cells
         #Start should be given in cell object
@@ -149,7 +157,7 @@ class ManipulateTable:
         for i in range(len(columns)):
             if columns[i][0].value:
                 ws.cell(row = i + ex_row, column = ex_col, value = i)
-                
+
     def insertIDValue(self, ws, start, columns):
         #Insert Column list with strings
 
@@ -169,7 +177,7 @@ class ManipulateTable:
 
         ex_col, ex_row = self.convertCoordinateFromString(start) #retrieve start cell in number
         ws.cell(row = ex_row, column = ex_col, value = columns)
-        
+
     def convertCoordinateFromString(self, coordinateString):
         col, ex_row = openpyxl.utils.cell.coordinate_from_string(coordinateString)
         ex_col = openpyxl.utils.cell.column_index_from_string(col)
@@ -190,4 +198,3 @@ class ManipulateTable:
         pos_row = pos_row + mov_row - 1
         newCell = self.coordinateToString(pos_col, pos_row)
         return newCell
-        
