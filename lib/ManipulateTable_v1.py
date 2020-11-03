@@ -146,7 +146,7 @@ class ManipulateTable:
 
         ex_col, ex_row = self.convertCoordinateFromString(start) #retrieve start cell in number
         for i in range(len(columns)):
-            ws.cell(row = i + ex_row, column = ex_col, value = columns[i])
+            ws.cell(row = i + ex_row, column = ex_col, value = str(columns[i]))
 
 
     def insertID(self, ws, start, columns):

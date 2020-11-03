@@ -60,7 +60,7 @@ def compareTwoListsWithIndex(uniclass_JP_code, hyoushi_JP_code,  hyoushi_JP_inde
         #for j in range(100):
             if uniclass_JP_code[i] != None and hyoushi_JP_code[j] != None:
                 matched_temp = difflib.SequenceMatcher(None, uniclass_JP_code[i], hyoushi_JP_code[j]).ratio()
-                if matched_val < matched_temp:
+                if matched_val < matched_temp and matched_temp >= 0.5:
                     matched_val = matched_temp
                     matched_ind = hyoushi_JP_index[j]
                     matched_tit = hyoushi_JP_code[j]
@@ -109,17 +109,29 @@ def Main():
     manipTable.insertColumnByValueB(uniclass_ws, "D2", UniToHyou_ind)
     manipTable.insertColumnByValueB(uniclass_ws, "E2", UniToHyou_tit)
     manipTable.insertColumnByValueB(uniclass_ws, "F2", UniToHyou_val)
-    uniclass_wb.save('result_uniclass.xlsx')
+    #uniclass_wb.save('result_uniclass.xlsx')
 
-    #map index values from uniclass to
+    #map index values from uniclass to hyoushi
+    hyou_SysList = []
+    for i in range(len(hyoushi_JP_index)):
+        sysList =[]
+        for j in range(len(uniclass_JP_code)):
+            if UniToHyou_ind[j] != -1:
+                if UniToHyou_ind[j] == hyoushi_JP_index[i]:
+                    sysList.append(uniclass_JP_code[j])
+        hyou_SysList.append(sysList)
+    #print(hyou_SysList)
+
+    uniclass_wb.save('result_uniclass.xlsx')
 
     """
     #map from hyoushi to uniclass
     HyouToUni_ind, HyouToUni_val = compareTwoLists(hyoushi_JP_code, uniclass_JP_code)
     manipTable.insertColumnByValueB(hyoushi_ws, "H2", HyouToUni_ind)
-    manipTable.insertColumnByValueB(hyoushi_ws, "I2", HyouToUni_val)
-    hyoushi_wb.save('result_hyoushi.xlsx')
     """
+    manipTable.insertColumnByValueB(hyoushi_ws, "I2", hyou_SysList)
+    hyoushi_wb.save('result_hyoushi.xlsx')
+
     #print(UniToHyou_ind)
     #print(UniToHyou_val)
 
