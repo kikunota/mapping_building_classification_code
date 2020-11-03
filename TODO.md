@@ -1,0 +1,2 @@
+- Make comparison of lists that can work for any two tables
+- get rid of connection words
