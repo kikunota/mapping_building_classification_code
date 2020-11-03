@@ -44,6 +44,30 @@ def compareTwoLists(uniclass_JP_code, hyoushi_JP_code):
         matched_ind_list.append(matched_ind)
 
     return matched_ind_list, matched_list
+def compareTwoListsWithIndex(uniclass_JP_code, hyoushi_JP_code,  hyoushi_JP_index):
+    #uniclass_JP_code, original lists that you want to map
+    #hyoushi_JP_code, compare lists that you want to map to
+
+    matched_list = []
+    matched_ind_list = []
+    matched_tit_list = []
+    for i in range(len(uniclass_JP_code)):
+    #for i in range(100):
+        matched_val = -1
+        matched_ind = -1
+        matched_tit = -1
+        for j in range(len(hyoushi_JP_code)):
+        #for j in range(100):
+            if uniclass_JP_code[i] != None and hyoushi_JP_code[j] != None:
+                matched_temp = difflib.SequenceMatcher(None, uniclass_JP_code[i], hyoushi_JP_code[j]).ratio()
+                if matched_val < matched_temp:
+                    matched_val = matched_temp
+                    matched_ind = hyoushi_JP_index[j]
+                    matched_tit = hyoushi_JP_code[j]
+        matched_list.append(matched_val)
+        matched_ind_list.append(matched_ind)
+        matched_tit_list.append(matched_tit)
+    return matched_ind_list, matched_tit_list, matched_list
 
 def cleanUpTerms(lst):
     for i in range(len(lst)):
@@ -80,16 +104,22 @@ def Main():
     hyoushi_JP_code = cleanUpTerms(hyoushi_JP_code)
     uniclass_JP_code = cleanUpTerms(uniclass_JP_code)
 
-    UniToHyou_ind, UniToHyou_val = compareTwoLists(uniclass_JP_code, hyoushi_JP_code)
+    #UniToHyou_code, UniToHyou_val = compareTwoLists(uniclass_JP_code, hyoushi_JP_code)
+    UniToHyou_ind, UniToHyou_tit, UniToHyou_val = compareTwoListsWithIndex(uniclass_JP_code, hyoushi_JP_code, hyoushi_JP_index)
     manipTable.insertColumnByValueB(uniclass_ws, "D2", UniToHyou_ind)
-    manipTable.insertColumnByValueB(uniclass_ws, "E2", UniToHyou_val)
+    manipTable.insertColumnByValueB(uniclass_ws, "E2", UniToHyou_tit)
+    manipTable.insertColumnByValueB(uniclass_ws, "F2", UniToHyou_val)
     uniclass_wb.save('result_uniclass.xlsx')
 
+    #map index values from uniclass to
+
+    """
+    #map from hyoushi to uniclass
     HyouToUni_ind, HyouToUni_val = compareTwoLists(hyoushi_JP_code, uniclass_JP_code)
     manipTable.insertColumnByValueB(hyoushi_ws, "H2", HyouToUni_ind)
     manipTable.insertColumnByValueB(hyoushi_ws, "I2", HyouToUni_val)
     hyoushi_wb.save('result_hyoushi.xlsx')
-
+    """
     #print(UniToHyou_ind)
     #print(UniToHyou_val)
 
