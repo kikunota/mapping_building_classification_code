@@ -1,2 +1,3 @@
 # mapping_classification
-maps Japanese building standards with Uniclass2015
+This program will map Japanese classification code given in Japanese Building Standard (公共標準仕様書) to Uniclass2015 UK classification code.
+
