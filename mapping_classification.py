@@ -60,7 +60,7 @@ def compareTwoListsWithIndex(uniclass_JP_code, hyoushi_JP_code,  hyoushi_JP_inde
         #for j in range(100):
             if uniclass_JP_code[i] != None and hyoushi_JP_code[j] != None:
                 matched_temp = difflib.SequenceMatcher(None, uniclass_JP_code[i], hyoushi_JP_code[j]).ratio()
-                if matched_val < matched_temp and matched_temp >= 0.5:
+                if matched_val < matched_temp and matched_temp >= 0.50:
                     matched_val = matched_temp
                     matched_ind = hyoushi_JP_index[j]
                     matched_tit = hyoushi_JP_code[j]
