@@ -81,11 +81,11 @@ def Main():
     manipTable = ManipulateTable_v1.ManipulateTable()
 
     #Extract list from `標準仕様書_JP
-    hyoushi_wb = openpyxl.load_workbook("標準仕様書.xlsx")
-    hyoushi_ws = hyoushi_wb["Sheet2"]
+    hyoushi_wb = openpyxl.load_workbook("内訳書.xlsx")
+    hyoushi_ws = hyoushi_wb["Sheet1"]
 
-    hyoushi_JP_index = manipTable.getColumnValueByName(hyoushi_ws, "Column1")
-    hyoushi_JP_code = manipTable.getColumnValueByName(hyoushi_ws, "Column5")
+    hyoushi_JP_index = manipTable.getColumnValueByName(hyoushi_ws, "No.")
+    hyoushi_JP_code = manipTable.getColumnValueByName(hyoushi_ws, "name")
 
     #Extract list from Uniclass2015_JP
     uniclass_wb = openpyxl.load_workbook("Uniclass_System.xlsx")
