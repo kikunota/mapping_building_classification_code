@@ -7,3 +7,5 @@
 - see how many of system fits into 標準仕様書
 - get all nouns from the contents of 標準仕様書 and see how much of it meets
 - map 標準仕様書　with products
+- Map between Uniclass <-> Uniformat
+- Map between 標準仕様書 <-> JCCS
