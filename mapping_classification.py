@@ -75,11 +75,11 @@ def Main():
     manipTable = ManipulateTable_v1.ManipulateTable()
 
     #Extract list from `標準仕様書_JP
-    hyoushi_wb = openpyxl.load_workbook("標準仕様書.xlsx")
+    hyoushi_wb = openpyxl.load_workbook("Omniclass.xlsx")
     hyoushi_ws = hyoushi_wb["Sheet2"]
 
-    hyoushi_JP_index = manipTable.getColumnValueByName(hyoushi_ws, "Column1")
-    hyoushi_JP_code = manipTable.getColumnValueByName(hyoushi_ws, "Column5")
+    hyoushi_JP_index = manipTable.getColumnValueByName(hyoushi_ws, "Column2")
+    hyoushi_JP_code = manipTable.getColumnValueByName(hyoushi_ws, "Column1")
 
     #Extract list from Uniclass2015_JP
     uniclass_wb = openpyxl.load_workbook("Uniclass_System.xlsx")
@@ -123,7 +123,7 @@ def Main():
     HyouToUni_ind, HyouToUni_val = compareTwoLists(hyoushi_JP_code, uniclass_JP_code)
     manipTable.insertColumnByValueB(hyoushi_ws, "H2", HyouToUni_ind)
     """
-    manipTable.insertColumnByValueB(hyoushi_ws, "I2", hyou_SysList)
+    manipTable.insertColumnByValueB(hyoushi_ws, "M2", hyou_SysList)
     hyoushi_wb.save('result_hyoushi.xlsx')
 
     #print(UniToHyou_ind)
