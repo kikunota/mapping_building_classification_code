@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
+print(sys.prefix)
+
 from lib import ManipulateTable_v1
 import time
 import openpyxl
